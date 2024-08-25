@@ -1,6 +1,4 @@
 # 874. Walking Robot Simulation
-import math
-
 class Solution:
     def robotSim(self, commands: list[int], obstacles: list[list[int]]) -> int:
         position = [0,0]
@@ -9,8 +7,12 @@ class Solution:
         south = [0,-1]
         east = [1,0]
         west = [-1,0]
-        
         maxDistance = 0
+        obstaclesSet = set()
+
+        for obstacle in obstacles:
+            obstaclesSet.add(tuple(obstacle))
+        obstaclesSet = set(obstaclesSet)
 
         for c in commands:
             if c == -2:
@@ -42,12 +44,7 @@ class Solution:
                     print (f'The current position is: {position} and direction: {direction}')
                     newPosition = [position[0]+direction[0],position[1]+direction[1]]
                     print (f'New possible: {newPosition}')
-                    crash = False
-                    for obstacle in  obstacles:
-                        if obstacle == newPosition:
-                            crash = True
-                            break
-                    if crash:
+                    if tuple(newPosition) in obstaclesSet:
                         print ('Possible crash detected')
                         break
                     else:
@@ -58,4 +55,5 @@ class Solution:
         return maxDistance
 
         
-        
+solution = Solution()
+print (solution.robotSim([4,-1,4,-2,4],[[2,4]]))
